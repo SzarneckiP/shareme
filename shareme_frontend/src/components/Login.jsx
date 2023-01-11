@@ -1,18 +1,22 @@
 import React from 'react'
 import { GoogleLogin } from '@react-oauth/google'
+import axios from "axios"
+import jwt_decode from 'jwt-decode'
+
+import { client } from '../utils/client'
 import { useNavigate } from 'react-router-dom'
-import { FcGoogle } from 'react-icons/fc'
+// import { FcGoogle } from 'react-icons/fc'
 import shareVideo from '../assets/share.mp4'
 import logo from '../assets/logowhite.png'
 
-import jwt_decode from 'jwt-decode'
-
-import { client } from '../client'
+import useAuthStore from '../store/authStore'
 
 const Login = () => {
+
+    const { userProfile, addUser } = useAuthStore()
     const navigate = useNavigate()
 
-    const responseGoogle = (response) => {
+    const createOrGetUser = (response) => {
         const decoded = jwt_decode(response.credential)
 
         const { name, sub, picture } = decoded
@@ -24,11 +28,14 @@ const Login = () => {
             image: picture,
         }
 
+        addUser(user)
+
         client.createIfNotExists(user)
             .then(() => {
                 navigate('/', { replace: true })
             })
     }
+
 
     return (
         <div className='flex justify-start items-center flex-col h-screen'>
@@ -49,20 +56,8 @@ const Login = () => {
                 </div>
                 <div className="shadow-2x1">
                     <GoogleLogin
-                        clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
-                        render={(renderProps) => (
-                            <button
-                                type='button'
-                                className='bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer outline-none'
-                                onClick={renderProps.onClick}
-                                disabled={renderProps.disabled}
-                            >
-                                <FcGoogle className='mr-4' /> Sign in with Google
-                            </button>
-                        )}
-                        onSuccess={responseGoogle}
-                        onFailure={responseGoogle}
-                        cookiePolicy='single_host_origin'
+                        onSuccess={(response) => createOrGetUser(response, addUser)}
+                        onError={() => console.log('error')}
                     />
                 </div>
             </div>
