@@ -54,7 +54,7 @@ const Sidebar = ({ closeToggle, user }) => {
                     ))}
                 </div>
             </div>
-            {user && (
+            {user !== null ? (
                 <Link
                     to={`/user-profile/${user._id}`}
                     className='flex my-5 mb-3 gap-2 p-2 items-center bg-white shadow-lg rounded-lg mx-3'
@@ -62,6 +62,13 @@ const Sidebar = ({ closeToggle, user }) => {
                 >
                     <img src={user.image} alt="userImage" className='m-3 rounded-full w-12 h-12' />
                     <p>{user.userName}</p>
+                </Link>
+            ) : (
+                <Link
+                    to={'login'}
+                    className='p-4 cursor-pointer text-gray-500 hover:text-black transition-all duration-150 easy-in'
+                >
+                    Login
                 </Link>
             )}
         </div>
