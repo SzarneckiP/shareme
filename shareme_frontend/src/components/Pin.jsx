@@ -7,7 +7,8 @@ import { BsArrowUpRightCircleFill } from 'react-icons/bs'
 
 import { client, urlFor } from '../utils/client'
 import useAuthStore from '../store/authStore'
-import { IoIosAddCircleOutline } from 'react-icons/io'
+
+const noImageUser = 'https://icons.veryicon.com/png/o/system/ali-mom-icon-library/random-user.png'
 
 const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
     const [postHovered, setPostHovered] = useState(false)
@@ -15,7 +16,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
     const navigate = useNavigate()
     const { userProfile } = useAuthStore()
 
-    const alreadySaved = !!(save?.filter((item) => item.postedBy._id === userProfile._id))?.length
+    const alreadySaved = !!(save?.filter((item) => item.postedBy?._id === userProfile?._id))?.length
 
     const savePin = (id) => {
         if (!alreadySaved) {
@@ -104,10 +105,10 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                                     className='bg-white flex items-center gap-2 text-black font-bold p-1 px-4 rounded-full opacity-70 hover:opacity-100 hover:shadow-md'
                                 >
                                     <BsArrowUpRightCircleFill />
-                                    {destination.length > 20 ? destination.slice(8, 20) : destination.slice(8)}
+                                    {destination.length > 15 ? `` : destination.slice(8)}
                                 </a>
                             )}
-                            {postedBy?._id === userProfile._id && (
+                            {postedBy?._id === userProfile?._id && (
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation()
@@ -124,9 +125,8 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                 )}
             </div>
             <Link to={`user-profile/${postedBy?._id}`} className='flex gap-2 mt-2 items-center'>
-
                 <img
-                    src={postedBy?.image}
+                    src={postedBy?.image ? postedBy?.image : noImageUser}
                     className='w-7 h-7 rounded-full object-cover'
                     alt='userImage'
                 />
