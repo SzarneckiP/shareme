@@ -39,7 +39,6 @@ const CreatePin = ({ user }) => {
             setWrongImageType(true)
         }
     }
-
     const savePin = () => {
         if (title && about && destination && imageAsset?._id && category) {
             const doc = {
@@ -59,6 +58,16 @@ const CreatePin = ({ user }) => {
                     _type: 'postedBy',
                     _ref: user._id,
                 },
+                save: [
+                    {
+                        _key: user._id,
+                        postedBy: {
+                            _type: 'postedBy',
+                            _ref: user._id,
+                        },
+                        userId: user._id,
+                    },
+                ],
                 category,
             }
 

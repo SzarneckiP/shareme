@@ -6,7 +6,7 @@ import { v4 as uuid4 } from 'uuid'
 
 import { client, urlFor } from '../utils/client'
 import MasonryLayout from './MasonryLayout'
-import { pinDetailMorePinQuery, pinDetailQuery } from '../utils/utils'
+import { pinDetailMorePinQuery, pinDetailQuery, noImageUser } from '../utils/utils'
 import Spinner from './Spinner'
 
 const PinDetail = ({ user }) => {
@@ -15,6 +15,8 @@ const PinDetail = ({ user }) => {
     const [comment, setComment] = useState('')
     const [addingComment, setAddingComment] = useState(false)
     const { pinId } = useParams()
+
+    const postedByImageSrc = pinDetail?.postedBy?.image ? pinDetail.postedBy?.image : noImageUser
 
     const reloadPage = () => {
         setTimeout(window.location.reload(), 5000)
@@ -79,7 +81,7 @@ const PinDetail = ({ user }) => {
 
     return (
         <>
-            <div className='flex xl-flex-row flex-col m-auto bg-white' style={{ maxWidth: '1500px', borderRadius: '32px' }}>
+            <div className='flex xl-flex-row flex-col m-auto bg-white mt-4' style={{ maxWidth: '1500px', borderRadius: '32px' }}>
                 <div className="flex justify-center items-center md:items-start flex-initial">
                     <img
                         src={pinDetail?.image && urlFor(pinDetail.image).url()}
@@ -111,7 +113,7 @@ const PinDetail = ({ user }) => {
                     </div>
                     <Link to={`user-profile/${pinDetail.postedBy?._id}`} className='flex gap-2 mt-5 items-center bg-white rounded-lg'>
                         <img
-                            src={pinDetail.postedBy?.image}
+                            src={postedByImageSrc}
                             className='w-7 h-7 rounded-full object-cover'
                             alt='userImage'
                         />
@@ -139,30 +141,30 @@ const PinDetail = ({ user }) => {
                             </div>
                         )
                     }
-
-                    <div className='flex flex-wrap mt-6 gap-3'>
-                        <Link to={`user-profile/${user?._id}`} className='flex gap-2 items-center bg-white rounded-lg'>
-                            <img
-                                src={user?.image}
-                                className='w-10 h-10 rounded-full cursor-pointer'
-                                alt={user?.userName}
+                    {user &&
+                        <div className='flex flex-wrap mt-6 gap-3'>
+                            <Link to={`user-profile/${user?._id}`} className='flex gap-2 items-center bg-white rounded-lg'>
+                                <img
+                                    src={user?.image}
+                                    className='w-10 h-10 rounded-full cursor-pointer'
+                                    alt={user?.userName}
+                                />
+                            </Link>
+                            <input
+                                className='flex-1 border-gray-100 outline-none border-2 p-2 rounded-2xl focus:border-gray-300'
+                                type="text"
+                                placeholder='Add a comment'
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
                             />
-                        </Link>
-                        <input
-                            className='flex-1 border-gray-100 outline-none border-2 p-2 rounded-2xl focus:border-gray-300'
-                            type="text"
-                            placeholder='Add a comment'
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                        />
-                        <button
-                            type='button'
-                            className='bg-red-500 text-white rounded-full px-6 py-2 font-semibold text-base outline-none'
-                            onClick={addComment}
-                        >
-                            {addingComment ? 'Posting the comment...' : 'Post'}
-                        </button>
-                    </div>
+                            <button
+                                type='button'
+                                className='bg-red-500 text-white rounded-full px-6 py-2 font-semibold text-base outline-none'
+                                onClick={addComment}
+                            >
+                                {addingComment ? 'Posting the comment...' : 'Post'}
+                            </button>
+                        </div>}
                 </div>
             </div>
             {pins ? (

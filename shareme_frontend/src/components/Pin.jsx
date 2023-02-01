@@ -6,9 +6,8 @@ import { AiTwotoneDelete } from 'react-icons/ai'
 import { BsArrowUpRightCircleFill } from 'react-icons/bs'
 
 import { client, urlFor } from '../utils/client'
+import { noImageUser } from '../utils/utils'
 import useAuthStore from '../store/authStore'
-
-const noImageUser = 'https://icons.veryicon.com/png/o/system/ali-mom-icon-library/random-user.png'
 
 const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
     const [postHovered, setPostHovered] = useState(false)

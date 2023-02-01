@@ -3,14 +3,17 @@ import { AiOutlineLogout } from 'react-icons/ai'
 import { useParams, useNavigate } from 'react-router-dom'
 import { googleLogout } from '@react-oauth/google'
 
-import { userCreatePinsQuery, userQuery, userSavedPinsQuery } from '../utils/utils'
+import { userCreatedPinsQuery, userQuery, userSavedPinsQuery, noImageUser } from '../utils/utils'
 import { client } from '../utils/client'
 import MasonryLayout from './MasonryLayout'
 import Spinner from './Spinner'
 
 const randomImage = 'https://source.unsplash.com/1600x900/?nature,photography,technology'
 
-const UserProfile = () => {
+const activeBtnStyles = 'bg-red-500 text-white font-bold p-2 rounded-full w-20 outline-none'
+const notActiveBtnStyles = 'bg-primary mr-4 text-black font-bold p-2 rounded-full w-20 outline-none'
+
+const UserProfile = ({ userGoogleProfile }) => {
     const [user, setUser] = useState(null)
     const [pins, setPins] = useState(null)
     const [text, setText] = useState('Created') // created || Saved
@@ -26,9 +29,25 @@ const UserProfile = () => {
             .then((data) => {
                 setUser(data[0])
             })
-
-
     }, [userId])
+
+    useEffect(() => {
+        if (text === 'created') {
+            const createPinsQuery = userCreatedPinsQuery(userId)
+
+            client.fetch(createPinsQuery)
+                .then((data) => {
+                    setPins(data)
+                })
+        } else {
+            const savedPinQuery = userSavedPinsQuery(userId)
+
+            client.fetch(savedPinQuery)
+                .then((data) => {
+                    setPins(data)
+                })
+        }
+    }, [text, userId])
 
     const logout = () => {
         googleLogout()
@@ -39,6 +58,8 @@ const UserProfile = () => {
     if (!user) {
         return <Spinner message={'Loading profile...'} />
     }
+
+    const userImageSrc = user.image ? user.image : noImageUser
 
     return (
         <div className='relative pb-2 h-full justify-center items-center'>
@@ -51,15 +72,15 @@ const UserProfile = () => {
                             alt="banner-pic"
                         />
                         <img
-                            className='rounded-full w-20 h-20 -mt-10 shadow-xl object-cover'
-                            src={user.image}
+                            className='bg-white rounded-full w-20 h-20 -mt-10 shadow-xl object-cover'
+                            src={userImageSrc}
                             alt='userImage'
                         />
                         <h1 className='font-bold text-3xl text-center mt-3'>
                             {user.userName}
                         </h1>
                         <div className='absolute top-0 z-1 right-0 p-2'>
-                            {userId === user._id && (
+                            {userId === userGoogleProfile?._id && (
                                 <button
                                     type="button"
                                     className="bg-white p-2 rounded-full cursor-pointer outline-none shadow-md"
@@ -70,6 +91,37 @@ const UserProfile = () => {
                             )}
                         </div>
                     </div>
+                    <div className='text-center mb-7 mt-4'>
+                        <button
+                            type='button'
+                            onClick={(e) => {
+                                setText(e.target.textContent)
+                                setActiveBtn('created')
+                            }}
+                            className={`${activeBtn === 'created' ? activeBtnStyles : notActiveBtnStyles}`}
+                        >
+                            Created
+                        </button>
+                        <button
+                            type='button'
+                            onClick={(e) => {
+                                setText(e.target.textContent)
+                                setActiveBtn('saved')
+                            }}
+                            className={`${activeBtn === 'saved' ? activeBtnStyles : notActiveBtnStyles}`}
+                        >
+                            Saved
+                        </button>
+                    </div>
+                    {pins?.length ? (
+                        <div className='px-2 '>
+                            <MasonryLayout pins={pins} />
+                        </div>
+                    ) : (
+                        <div className='flex justify-center items-center font-bold w-full text-xl mt-2'>
+                            No pins found.
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
