@@ -96,6 +96,7 @@ const UserProfile = ({ userGoogleProfile }) => {
                             onClick={(e) => {
                                 setText(e.target.textContent)
                                 setActiveBtn('created')
+                                window.location.reload()
                             }}
                             className={`${activeBtn === 'created' ? activeBtnStyles : notActiveBtnStyles}`}
                         >

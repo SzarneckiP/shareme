@@ -4,18 +4,10 @@ import { RiHomeFill } from 'react-icons/ri'
 // import { IoIosArrowForward } from 'react-icons/io'
 
 import logo from '../assets/logo.png'
+import { categories } from '../utils/utils'
 
 const isNotActiveStyle = 'flex items-center px-5 gap-3 text-gray-500 hover:text-black transition-all duration-200 easy-in-out capitalize'
 const isActiveStyle = 'flex items-center px-5 gap-3 font-extrabold border-r-2 border-black transition-all duration-200 easy-in-out capitalize'
-
-const categories = [
-    { name: 'Animals' },
-    { name: 'Wallpapers' },
-    { name: 'Photography' },
-    { name: 'Gaming' },
-    { name: 'Coding' },
-    { name: 'Other' },
-]
 
 const Sidebar = ({ closeToggle, user }) => {
 
@@ -49,6 +41,10 @@ const Sidebar = ({ closeToggle, user }) => {
                             onClick={handleCloseSidebar}
                             key={category.name}
                         >
+                            <img src={category.image}
+                                alt="categories-pic"
+                                className='rounded-full w-8 h-8 shadow-sm'
+                            />
                             {category.name}
                         </NavLink>
                     ))}
