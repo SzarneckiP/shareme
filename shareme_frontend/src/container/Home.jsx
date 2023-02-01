@@ -41,7 +41,7 @@ const Home = () => {
                     ) : (
                         <Link
                             to={'login'}
-                            className='p-2 border-black border-2 font-extrabold cursor-pointer'
+                            className='py-2 px-3 border-gray-400 border-2 text-gray-400 rounded-3xl font-extrabold cursor-pointer'
                         >
                             Login
                         </Link>

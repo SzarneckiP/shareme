@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { MdDownloadForOffline } from 'react-icons/md'
-import { AiTwotoneDelete } from 'react-icons/ai'
+// import { AiTwotoneDelete } from 'react-icons/ai'
 import { Link, useParams } from 'react-router-dom'
 import { v4 as uuid4 } from 'uuid'
 
@@ -82,11 +82,11 @@ const PinDetail = ({ user }) => {
     return (
         <>
             <div className='flex xl-flex-row flex-col m-auto bg-white mt-4' style={{ maxWidth: '1500px', borderRadius: '32px' }}>
-                <div className="flex justify-center items-center md:items-start flex-initial">
+                <div className="flex justify-center items-center md:items-start flex-initial h-full">
                     <img
                         src={pinDetail?.image && urlFor(pinDetail.image).url()}
                         alt={pinDetail?.title}
-                        className='rounded-t-3xl rounded-b-lg'
+                        className='rounded-t-3xl rounded-b-lg max-h-screen'
                     />
                 </div>
                 <div className='w-full p-5 flex-1 xl:min-w-620'>

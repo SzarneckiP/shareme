@@ -16,11 +16,10 @@ const notActiveBtnStyles = 'bg-primary mr-4 text-black font-bold p-2 rounded-ful
 const UserProfile = ({ userGoogleProfile }) => {
     const [user, setUser] = useState(null)
     const [pins, setPins] = useState(null)
-    const [text, setText] = useState('Created') // created || Saved
+    const [text, setText] = useState('created') // created || Saved
     const [activeBtn, setActiveBtn] = useState('created')
     const navigate = useNavigate()
     const { userId } = useParams()
-
 
     useEffect(() => {
         const query = userQuery(userId)

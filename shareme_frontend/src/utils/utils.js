@@ -32,17 +32,24 @@ export const categories = [
     {
         name: 'art',
         image: 'https://i.pinimg.com/736x/f4/e5/ba/f4e5ba22311039662dd253be33bf5f0e.jpg',
-    }, {
+    },
+    {
         name: 'travel',
         image: 'https://i.pinimg.com/236x/fa/95/98/fa95986f2c408098531ca7cc78aee3a4.jpg',
     },
     {
         name: 'quotes',
         image: 'https://i.pinimg.com/236x/46/7c/17/467c17277badb00b638f8ec4da89a358.jpg',
-    }, {
+    },
+    {
+        name: 'gaming',
+        image: 'https://images.pexels.com/photos/7047010/pexels-photo-7047010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    },
+    {
         name: 'cats',
         image: 'https://i.pinimg.com/236x/6c/3c/52/6c3c529e8dadc7cffc4fddedd4caabe1.jpg',
-    }, {
+    },
+    {
         name: 'dogs',
         image: 'https://i.pinimg.com/236x/1b/c8/30/1bc83077e363db1a394bf6a64b071e9f.jpg',
     },

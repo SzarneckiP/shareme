@@ -58,16 +58,6 @@ const CreatePin = ({ user }) => {
                     _type: 'postedBy',
                     _ref: user._id,
                 },
-                save: [
-                    {
-                        _key: user._id,
-                        postedBy: {
-                            _type: 'postedBy',
-                            _ref: user._id,
-                        },
-                        userId: user._id,
-                    },
-                ],
                 category,
             }
 
@@ -114,7 +104,7 @@ const CreatePin = ({ user }) => {
                             </label>
                         ) : (
                             <div className='relative h-full'>
-                                <img src={imageAsset.url} alt="uploaded-picture" className='h-full w-full rounded-lg' />
+                                <img src={imageAsset.url} alt="uploaded-pic" className='h-full w-full rounded-lg' />
                                 <button
                                     type='button'
                                     className=' absolute bottom-3 right-3 p-3 rounded-full bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out'
